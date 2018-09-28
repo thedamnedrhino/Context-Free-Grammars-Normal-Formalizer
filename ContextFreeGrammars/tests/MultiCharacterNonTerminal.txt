@@ -1,0 +1,7 @@
+V: S,A,B
+SIGMA: +,(,),a,b,cd
+S:S
+P:
+	S -> S + A | A,
+	A -> AB | B,
+	B -> ( S ) | a | b | cd

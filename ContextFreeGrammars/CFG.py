@@ -21,13 +21,13 @@ class CFG:
     # Productions
     _P = []
     # Accepted Variables - Non Terminal Symbols - RegExp
-    _V_set = '[A-Z](_[0-9]*)?(,[A-Z](_[0-9]*)?)*'
+    _V_set = '[A-Za-z]*(_[0-9]*)?(,[A-Za-z]*(_[0-9]*)?)*'
     # Accepted Alphabet - Terminal Symbols - RegExp
     _SIGMA_set = '.*(,.*)*'
     # Accepted Start Symbol - RegExp
-    _S_set = '[A-Z](_[0-9]*)?'
+    _S_set = '[A-Za-z]*(_[0-9]*)?'
     # Accepted Productions - RegExp
-    _P_set = '([A-Z](_[0-9]*)?->.*(|.*)*(,[A-Z](_[0-9]*)?->.*(|.*)*)*)'
+    _P_set = '([A-Za-z]*(_[0-9]*)?->.*(|.*)*(,[A-Za-z]*(_[0-9]*)?->.*(|.*)*)*)'
 
     def loadFromFile(self, txtFile):
         """ Costructor From File """
@@ -125,6 +125,28 @@ class CFG:
                     _p += ' ' + s
                 _PS.append(_p)
             _str += ' |'.join(_PS)
+        return _str.replace('\\', '')
+
+    def nlp_rep(self, order=False):
+        _str = 'V: ' + ', '.join(self._V) + '\n'
+        _str += 'SIGMA: ' + ', '.join(self._SIGMA) + '\n'
+        _str += 'S: ' + self._S + '\n'
+        _str += 'P:'
+        if order:
+            V = [x for x in order if x in self._V] + [x for x in self._V if x not in order]
+        else:
+            V = self._V
+        for v in V:
+            # _str += '\n\t' + v + ' ->'
+            base = '\n\t' + '1\t' + v + '\t'
+            _PS = []
+            for p in self._P[v]:
+                _p = ''
+                for i, s in p.items():
+                    _p += ' ' + s
+                _PS.append(_p)
+                _str += base + _p
+            # _str += ' |'.join(_PS)
         return _str.replace('\\', '')
 
 
