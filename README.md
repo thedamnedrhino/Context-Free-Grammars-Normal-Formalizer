@@ -19,4 +19,9 @@ P : V1 -> s1 V | #,
 $ python3 example.py example.txt 
 
 ```
+
+## Modified version for our english grammars
+```
+$ python3 cnf.py example.txt
+```
 More examples can be found in 'ContextFreeGrammars/tests'
